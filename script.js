@@ -14,7 +14,7 @@ function Gameboard() {
     const printBoard = () => {
         board.forEach(row => {
             console.log(`${row[0]} ${row[1]} ${row[2]}`);
-        })
+        });
     };
 
     return { getBoard, markSquare, resetBoard, printBoard };
@@ -30,7 +30,7 @@ function Players() {
             if (player.name === oldName) {
                 player.name = newName;
             }
-        })
+        });
     };
 
     const resetPlayers = () => {
@@ -50,9 +50,12 @@ function GameController() {
         activePlayer = activePlayer === players.getPlayers()[0] ? players.getPlayers()[1] : players.getPlayers()[0];
     };
 
+    const getActivePlayer = () => activePlayer;
+
     const resetGame = () => {
         players.resetPlayers();
         gameboard.resetBoard();
+        activePlayer = players.getPlayers()[0];
     };
 
     const checkRoundOver = () => {
@@ -85,8 +88,8 @@ function GameController() {
                     if (sign === "-") {
                         isBoardFull = false;
                     }
-                })
-            })
+                });
+            });
             
             if (isBoardFull) {
                 console.log("It's a tie!");
@@ -103,7 +106,42 @@ function GameController() {
         checkRoundOver();
     };
 
-    return { playRound, resetGame };
+    return { playRound, getActivePlayer, resetGame, getBoard: gameboard.getBoard };
 }
 
-const game = GameController();
+function DisplayController() {
+    const game = GameController();
+    const boardDiv = document.querySelector(".board");
+    
+    const updateScreen = () => {
+        boardDiv.replaceChildren();
+
+        const board = game.getBoard();
+
+        board.forEach((row, rowIndex) => {
+            row.forEach((sign, colIndex) => {
+                const buttonElement = document.createElement("button");
+                buttonElement.classList.add("cell");
+
+                buttonElement.dataset.row = rowIndex;
+                buttonElement.dataset.column = colIndex;
+                buttonElement.textContent = sign;
+                boardDiv.appendChild(buttonElement);
+            });
+        });
+    };
+
+    boardDiv.addEventListener("click", (e) => {
+        const row = e.target.dataset.row;
+        const column = e.target.dataset.column;
+
+        if (e.target.textContent === "X" || e.target.textContent === "O") return;
+
+        game.playRound(row, column);
+        updateScreen();
+    });
+
+    updateScreen();
+}
+
+DisplayController();

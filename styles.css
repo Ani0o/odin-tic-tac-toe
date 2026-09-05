@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+}
+
+.board {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 5vh 25vw;
+}
+
+.cell {
+    height: 30vh;
+}
