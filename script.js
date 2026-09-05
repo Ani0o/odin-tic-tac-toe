@@ -45,17 +45,28 @@ function GameController() {
     const players = Players();
 
     let activePlayer = players.getPlayers()[0];
+    let notifyText = {
+        text: `${activePlayer.name}'s Turn`,
+        isRoundOver: false,
+    };
 
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players.getPlayers()[0] ? players.getPlayers()[1] : players.getPlayers()[0];
+        notifyText.text = `${activePlayer.name}'s Turn`;
     };
 
     const getActivePlayer = () => activePlayer;
+
+    const getNotifyText = () => notifyText;
 
     const resetGame = () => {
         players.resetPlayers();
         gameboard.resetBoard();
         activePlayer = players.getPlayers()[0];
+        notifyText = {
+            text: `${activePlayer.name}'s Turn`,
+            isRoundOver: false,
+        };
     };
 
     const checkRoundOver = () => {
@@ -70,7 +81,8 @@ function GameController() {
             (board[0][0] === "X" && board[1][1] === "X" && board[2][2] === "X") ||
             (board[0][2] === "X" && board[1][1] === "X" && board[2][0] === "X")) {
             console.log("Player 1 wins!");
-            resetGame();
+            notifyText.text = "Player 1 wins!";
+            notifyText.isRoundOver = true;
         } else if ((board[0][0] === "O" && board[0][1] === "O" && board[0][2] === "O") ||
             (board[1][0] === "O" && board[1][1] === "O" && board[1][2] === "O") ||
             (board[2][0] === "O" && board[2][1] === "O" && board[2][2] === "O") ||
@@ -80,7 +92,8 @@ function GameController() {
             (board[0][0] === "O" && board[1][1] === "O" && board[2][2] === "O") ||
             (board[0][2] === "O" && board[1][1] === "O" && board[2][0] === "O")) {
             console.log("Player 2 wins!");
-            resetGame();
+            notifyText.text = "Player 2 wins!";
+            notifyText.isRoundOver = true;
         } else {
             let isBoardFull = true;
             board.forEach(row => {
@@ -93,7 +106,8 @@ function GameController() {
             
             if (isBoardFull) {
                 console.log("It's a tie!");
-                resetGame();
+                notifyText.text = "It's a tie!";
+                notifyText.isRoundOver = true;
             }
         }
     };
@@ -106,17 +120,21 @@ function GameController() {
         checkRoundOver();
     };
 
-    return { playRound, getActivePlayer, resetGame, getBoard: gameboard.getBoard };
+    return { playRound, getActivePlayer, getNotifyText, resetGame, getBoard: gameboard.getBoard };
 }
 
 function DisplayController() {
     const game = GameController();
     const boardDiv = document.querySelector(".board");
+    const notifyDiv = document.querySelector(".notify");
     
     const updateScreen = () => {
         boardDiv.replaceChildren();
 
         const board = game.getBoard();
+        const notifyText = game.getNotifyText();
+
+        notifyDiv.textContent = notifyText.text;
 
         board.forEach((row, rowIndex) => {
             row.forEach((sign, colIndex) => {
@@ -134,8 +152,10 @@ function DisplayController() {
     boardDiv.addEventListener("click", (e) => {
         const row = e.target.dataset.row;
         const column = e.target.dataset.column;
+        const notifyText = game.getNotifyText();
 
         if (e.target.textContent === "X" || e.target.textContent === "O") return;
+        if (notifyText.isRoundOver) return;
 
         game.playRound(row, column);
         updateScreen();
