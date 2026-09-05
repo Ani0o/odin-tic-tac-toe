@@ -21,28 +21,26 @@ function Gameboard() {
 }
 
 function Players() {
-    let players = [{ name: "player1", score: "0", sign: "X" }, { name: "player2", score: "0", sign: "O" }];
+    let players = [{ name: "player1", sign: "X" }, { name: "player2", sign: "O" }];
 
     const getPlayers = () => players;
 
-    const updatePlayer = (oldName, newName, score) => {
+    const updatePlayer = (oldName, newName) => {
         players.forEach(player => {
             if (player.name === oldName) {
                 player.name = newName;
-                player.score = `${score}`;
             }
         })
     };
 
     const resetPlayers = () => {
-        players = [{ name: "player1", score: "0"}, { name: "player2", score: "0" }];
+        players = [{ name: "player1", sign: "X" }, { name: "player2", sign: "O" }];
     };
 
     return { getPlayers, updatePlayer, resetPlayers };
 }
 
 function GameController() {
-    let rounds = 0;
     const gameboard = Gameboard();
     const players = Players();
 
@@ -58,26 +56,46 @@ function GameController() {
     };
 
     const checkRoundOver = () => {
-        gameboard.getBoard().forEach(row => {
-            if (row[0] === "X" && row[1] === "X" && row[2] === "X") {
-                console.log("Player 1 wins!");
-                const player1 = players.getPlayers()[0];
-                players.updatePlayer(player1.name, player1.name, Number(player1.score) + 1);
-                rounds++;
+        const board = gameboard.getBoard();
+
+        if ((board[0][0] === "X" && board[0][1] === "X" && board[0][2] === "X") ||
+            (board[1][0] === "X" && board[1][1] === "X" && board[1][2] === "X") ||
+            (board[2][0] === "X" && board[2][1] === "X" && board[2][2] === "X") ||
+            (board[0][0] === "X" && board[1][0] === "X" && board[2][0] === "X") ||
+            (board[0][1] === "X" && board[1][1] === "X" && board[2][1] === "X") ||
+            (board[0][2] === "X" && board[1][2] === "X" && board[2][2] === "X") ||
+            (board[0][0] === "X" && board[1][1] === "X" && board[2][2] === "X") ||
+            (board[0][2] === "X" && board[1][1] === "X" && board[2][0] === "X")) {
+            console.log("Player 1 wins!");
+            resetGame();
+        } else if ((board[0][0] === "O" && board[0][1] === "O" && board[0][2] === "O") ||
+            (board[1][0] === "O" && board[1][1] === "O" && board[1][2] === "O") ||
+            (board[2][0] === "O" && board[2][1] === "O" && board[2][2] === "O") ||
+            (board[0][0] === "O" && board[1][0] === "O" && board[2][0] === "O") ||
+            (board[0][1] === "O" && board[1][1] === "O" && board[2][1] === "O") ||
+            (board[0][2] === "O" && board[1][2] === "O" && board[2][2] === "O") ||
+            (board[0][0] === "O" && board[1][1] === "O" && board[2][2] === "O") ||
+            (board[0][2] === "O" && board[1][1] === "O" && board[2][0] === "O")) {
+            console.log("Player 2 wins!");
+            resetGame();
+        } else {
+            let isBoardFull = true;
+            board.forEach(row => {
+                row.forEach(sign => {
+                    if (sign === "-") {
+                        isBoardFull = false;
+                    }
+                })
+            })
+            
+            if (isBoardFull) {
+                console.log("It's a tie!");
                 resetGame();
-                return;
-            } else if (row[0] === "O" && row[1] === "O" && row[2] === "O") {
-                console.log("Player 2 wins!");
-                const player2 = players.getPlayers()[1];
-                players.updatePlayer(player2.name, player2.name, Number(player2.score) + 1);
-                rounds++;
-                resetGame();
-                return;
             }
-        })
+        }
     };
 
-    const playTurn = (row, column) => {
+    const playRound = (row, column) => {
         gameboard.markSquare(row, column, activePlayer.sign);
 
         switchPlayerTurn();
@@ -85,7 +103,7 @@ function GameController() {
         checkRoundOver();
     };
 
-    return { playTurn, resetGame };
+    return { playRound, resetGame };
 }
 
 const game = GameController();
