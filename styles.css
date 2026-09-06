@@ -2,13 +2,18 @@ body {
     margin: 0;
 }
 
+.notify {
+    text-align: center;
+}
+
 .board {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 12vw 12vw 12vw;
+    justify-content: center;
     padding: 5vh 25vw;
 }
 
 .cell {
-    height: 30vh;
+    height: 25vh;
 }

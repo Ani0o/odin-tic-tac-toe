@@ -21,28 +21,37 @@ function Gameboard() {
 }
 
 function Players() {
-    let players = [{ name: "player1", sign: "X" }, { name: "player2", sign: "O" }];
+    let players = [{ name: "Player 1", sign: "X" }, { name: "Player 2", sign: "O" }];
 
     const getPlayers = () => players;
 
-    const updatePlayer = (oldName, newName) => {
+    const updatePlayer = (newName) => {
         players.forEach(player => {
-            if (player.name === oldName) {
-                player.name = newName;
+            if (newName.player === "player1") {
+                players[0].name = newName.name;
+            } else {
+                players[1].name = newName.name;
             }
         });
     };
 
     const resetPlayers = () => {
-        players = [{ name: "player1", sign: "X" }, { name: "player2", sign: "O" }];
+        players = [{ name: "Player 1", sign: "X" }, { name: "Player 2", sign: "O" }];
     };
 
     return { getPlayers, updatePlayer, resetPlayers };
 }
 
-function GameController() {
+function GameController(p1name, p2name) {
     const gameboard = Gameboard();
     const players = Players();
+
+    if (p1name !== "") {
+        players.updatePlayer({ player: "player1", name: p1name });
+    }
+    if (p2name !== "") {
+        players.updatePlayer({ player: "player2", name: p2name });
+    }
 
     let activePlayer = players.getPlayers()[0];
     let notifyText = {
@@ -54,8 +63,6 @@ function GameController() {
         activePlayer = activePlayer === players.getPlayers()[0] ? players.getPlayers()[1] : players.getPlayers()[0];
         notifyText.text = `${activePlayer.name}'s Turn`;
     };
-
-    const getActivePlayer = () => activePlayer;
 
     const getNotifyText = () => notifyText;
 
@@ -81,7 +88,7 @@ function GameController() {
             (board[0][0] === "X" && board[1][1] === "X" && board[2][2] === "X") ||
             (board[0][2] === "X" && board[1][1] === "X" && board[2][0] === "X")) {
             console.log("Player 1 wins!");
-            notifyText.text = "Player 1 wins!";
+            notifyText.text = `${players.getPlayers()[0].name} wins!`;
             notifyText.isRoundOver = true;
         } else if ((board[0][0] === "O" && board[0][1] === "O" && board[0][2] === "O") ||
             (board[1][0] === "O" && board[1][1] === "O" && board[1][2] === "O") ||
@@ -92,7 +99,7 @@ function GameController() {
             (board[0][0] === "O" && board[1][1] === "O" && board[2][2] === "O") ||
             (board[0][2] === "O" && board[1][1] === "O" && board[2][0] === "O")) {
             console.log("Player 2 wins!");
-            notifyText.text = "Player 2 wins!";
+            notifyText.text = `${players.getPlayers()[1].name} wins!`;
             notifyText.isRoundOver = true;
         } else {
             let isBoardFull = true;
@@ -120,11 +127,11 @@ function GameController() {
         checkRoundOver();
     };
 
-    return { playRound, getActivePlayer, getNotifyText, resetGame, getBoard: gameboard.getBoard };
+    return { playRound, getNotifyText, resetGame, getBoard: gameboard.getBoard };
 }
 
-function DisplayController() {
-    const game = GameController();
+function DisplayController(p1name, p2name) {
+    const game = GameController(p1name, p2name);
     const boardDiv = document.querySelector(".board");
     const notifyDiv = document.querySelector(".notify");
     
@@ -164,4 +171,14 @@ function DisplayController() {
     updateScreen();
 }
 
-DisplayController();
+const startButton = document.querySelector(".start");
+
+startButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    startButton.innerText = "Restart Game";
+
+    const p1name = document.querySelector("#player1-name").value;
+    const p2name = document.querySelector("#player2-name").value;
+
+    DisplayController(p1name, p2name);
+});
