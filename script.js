@@ -87,7 +87,7 @@ function GameController(p1name, p2name) {
             (board[0][2] === "X" && board[1][2] === "X" && board[2][2] === "X") ||
             (board[0][0] === "X" && board[1][1] === "X" && board[2][2] === "X") ||
             (board[0][2] === "X" && board[1][1] === "X" && board[2][0] === "X")) {
-            console.log("Player 1 wins!");
+            // console.log("Player 1 wins!");
             notifyText.text = `${players.getPlayers()[0].name} wins!`;
             notifyText.isRoundOver = true;
         } else if ((board[0][0] === "O" && board[0][1] === "O" && board[0][2] === "O") ||
@@ -98,7 +98,7 @@ function GameController(p1name, p2name) {
             (board[0][2] === "O" && board[1][2] === "O" && board[2][2] === "O") ||
             (board[0][0] === "O" && board[1][1] === "O" && board[2][2] === "O") ||
             (board[0][2] === "O" && board[1][1] === "O" && board[2][0] === "O")) {
-            console.log("Player 2 wins!");
+            // console.log("Player 2 wins!");
             notifyText.text = `${players.getPlayers()[1].name} wins!`;
             notifyText.isRoundOver = true;
         } else {
@@ -112,7 +112,7 @@ function GameController(p1name, p2name) {
             });
             
             if (isBoardFull) {
-                console.log("It's a tie!");
+                // console.log("It's a tie!");
                 notifyText.text = "It's a tie!";
                 notifyText.isRoundOver = true;
             }
@@ -123,7 +123,7 @@ function GameController(p1name, p2name) {
         gameboard.markSquare(row, column, activePlayer.sign);
 
         switchPlayerTurn();
-        gameboard.printBoard();
+        // gameboard.printBoard();
         checkRoundOver();
     };
 
