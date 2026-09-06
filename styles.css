@@ -1,6 +1,116 @@
 body {
     margin: 0;
+    font-family: "Poppins", sans-serif;
+
+    display: grid;
+    grid-template-rows: 28vh 1fr;}
+
+h1 {
+    margin: 0;
 }
+
+button, input {
+  font-family: inherit;
+  font-size: 100%;
+}
+
+
+/* Header Section */
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(31, 31, 31);
+    padding: 2vh 5vw 3vh;
+    box-shadow: 0px 1px 3px;
+}
+
+/* Title */
+
+.title {
+    display: flex;
+    gap: 10px;
+}
+
+.title img {
+    width: calc(20px + 1.5vw + 1.5vh);
+    filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(125deg) brightness(109%) contrast(110%);
+}
+
+.title h1 {
+    font-size: calc(0.8rem + 1.5vw + 1.5vh);
+    font-weight: bold;
+    color: white;
+}
+
+/* Form section */
+
+.header form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    column-gap: 2vw;
+}
+
+/* Form Controls */
+
+form div {
+    color: white;
+    font-size: calc(0.2rem + 0.6vw + 0.6vh);
+    font-weight: 500;
+}
+
+form div label {
+    margin-right: 10px;
+}
+
+form div input {
+    outline: none;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 2px 0;
+    padding-left: 5px;
+    background-color: rgb(255, 254, 249);
+}
+
+form div input:hover {
+    background-color: rgb(207, 207, 207);
+}
+
+form div input:focus {
+    border: 2px solid rgb(0, 187, 187);
+    background-color: rgb(239, 239, 239);
+}
+
+/* Form Button */
+
+form button {
+    grid-column: 1 / 3;
+    font-size: calc(0.3rem + 0.6vw + 0.6vh);
+    font-weight: 500;
+    width: auto;
+    margin: 5px auto 0;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 20px;
+    cursor: pointer;
+    background-color: rgb(0, 154, 154);
+    color: white;
+}
+
+form button:hover {
+    background-color: rgb(0, 174, 174);
+}
+
+form button:active {
+    background-color: rgb(0, 134, 134);
+}
+
+
+/* Main Section */
 
 .notify {
     text-align: center;
