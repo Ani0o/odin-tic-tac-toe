@@ -3,7 +3,7 @@ body {
     font-family: "Poppins", sans-serif;
 
     display: grid;
-    grid-template-rows: 28vh 1fr;}
+    grid-template-rows: 30vh 10vh 1fr;}
 
 h1 {
     margin: 0;
@@ -41,7 +41,7 @@ button, input {
 }
 
 .title h1 {
-    font-size: calc(0.8rem + 1.5vw + 1.5vh);
+    font-size: calc(1rem + 1.5vw + 1.5vh);
     font-weight: bold;
     color: white;
 }
@@ -112,9 +112,20 @@ form button:active {
 
 /* Main Section */
 
-.notify {
-    text-align: center;
+.notify, .board {
+    background-color: rgb(255, 254, 249);
 }
+
+/* Notify Section */
+
+.notify {
+    font-size: calc(0.5rem + 1.5vw + 1.5vh);
+    font-weight: 600;
+    text-align: center;
+    padding: 2vh 5vw 0;
+}
+
+/* Board Section */
 
 .board {
     display: grid;
@@ -126,4 +137,54 @@ form button:active {
 
 .cell {
     height: 25vh;
+    border: none;
+    background-color: inherit;
+    font-size: calc(3rem + 1.5vw + 1.5vh);
+    font-weight: 600;
+}
+
+.cell:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+.cell:nth-child(3n + 1) {
+    border-right: 5px solid black;
+}
+
+.cell:nth-child(3n + 2) {
+    border-left: 5px solid black;
+    border-right: 5px solid black;
+}
+
+.cell:nth-child(3n + 3) {
+    border-left: 5px solid black;
+}
+
+.cell:nth-child(n + 1):nth-child(-n + 3) {
+    border-bottom: 5px solid black;
+}
+
+.cell:nth-child(n + 4):nth-child(-n + 6) {
+    border-top: 5px solid black;
+    border-bottom: 5px solid black;
+}
+
+.cell:nth-child(n + 7):nth-child(-n + 9) {
+    border-top: 5px solid black;
+}
+
+.cell:nth-child(1) {
+    border-top-left-radius: 20px;
+}
+
+.cell:nth-child(3) {
+    border-top-right-radius: 20px;
+}
+
+.cell:nth-child(7) {
+    border-bottom-left-radius: 20px;
+}
+
+.cell:nth-child(9) {
+    border-bottom-right-radius: 20px;
 }

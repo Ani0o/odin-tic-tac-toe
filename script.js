@@ -1,5 +1,5 @@
 function Gameboard() {
-    let board = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']];
+    let board = [['', '', ''], ['', '', ''], ['', '', '']];
 
     const getBoard = () => board;
 
@@ -8,7 +8,7 @@ function Gameboard() {
     };
 
     const resetBoard = () => {
-        board = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']];
+        board = [['', '', ''], ['', '', ''], ['', '', '']];
     };
 
     const printBoard = () => {
@@ -105,7 +105,7 @@ function GameController(p1name, p2name) {
             let isBoardFull = true;
             board.forEach(row => {
                 row.forEach(sign => {
-                    if (sign === "-") {
+                    if (sign === "") {
                         isBoardFull = false;
                     }
                 });
